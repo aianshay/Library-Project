@@ -1,0 +1,63 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:p="http://primefaces.org/ui"
+    xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
+  
+ <ui:composition template="/template/template.xhtml">
+ <ui:define name="Titulo">Acervo</ui:define>
+ <ui:define name="content">
+
+    <h:form id="form">
+    	<p:menubar style="margin-bottom:20px">
+    		<p:menuitem value="Acervo" url="user.jsf"></p:menuitem>
+    		<p:menuitem  value="Meus livros" url="mybooks.jsf"></p:menuitem>
+    		<p:menuitem value="Logout" url="index.jsf" action="#{gerenciamentoLivroNew.logout}" ></p:menuitem>
+    	</p:menubar>
+    	
+ 	<f:event type="preRenderView" listener="#{gerenciamentoLivroNew.visualize}" />
+ 
+    <p:dataTable value="#{gerenciamentoLivroNew.livros}" var="livro">
+		<p:column headerText="Título" filterBy="#{livro.titulo}">
+			<h:outputText value="#{livro.titulo}"/>
+		</p:column>
+		
+		<p:column headerText="Autor" 	 filterBy="#{livro.autor}">
+			<h:outputText value="#{livro.autor}"/>
+		</p:column>
+		
+		<p:column headerText="Capa" style="width:100px; text-align:center">
+			<p:commandButton update=":form:capaDetail"  oncomplete="PF('livroDialog').show()" icon="ui-icon-bookmark" title="Visualizar">
+                <f:setPropertyActionListener value="#{livro}" target="#{gerenciamentoLivroNew.livroSelecionado}" />
+            </p:commandButton>
+		</p:column>
+			
+		<p:column headerText="Emprestar" style="width:100px; text-align:center">
+			<p:commandButton title="Emprestar" icon="ui-icon-plus" oncomplete="PF('confirmarDialog').show()">	
+				<f:setPropertyActionListener value="#{livro}" target="#{gerenciamentoLivroNew.livroSelecionado}"/>
+			</p:commandButton>		
+        </p:column>
+   
+	</p:dataTable>
+	
+	<p:dialog header="Confirmar empréstimo" style="text-align:center" widgetVar="confirmarDialog" modal="true" showEffect="fade" hideEffect="fade" resizable="false" closeOnEscape="true">
+			
+			<p:growl life="2500">
+				<p:autoUpdate />
+			</p:growl>
+			
+			<p:commandButton value="Confirmar" icon="ui-icon-check" oncomplete="PF('confirmarDialog').hide()" action="#{gerenciamentoLivroNew.Emprestar}"/>
+			<p:commandButton value="Cancelar" icon="ui-icon-closethick" oncomplete="PF('confirmarDialog').hide()"/>
+	</p:dialog>
+	
+	<p:dialog header="Capa" widgetVar="livroDialog" modal="true" showEffect="fade" hideEffect="fade" resizable="false" closeOnEscape="true">
+			<p:outputPanel id="capaDetail" style="text-align:center;">
+                    <p:graphicImage url="#{gerenciamentoLivroNew.livroSelecionado.capa}" height="200" width="150"/> 
+            </p:outputPanel>    
+	</p:dialog>
+	
+    </h:form>
+    
+</ui:define>
+</ui:composition>
+</html>

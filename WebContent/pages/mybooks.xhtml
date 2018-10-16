@@ -1,0 +1,68 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:p="http://primefaces.org/ui"
+    xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
+  
+ <ui:composition template="/template/template.xhtml">
+ <ui:define name="Titulo">Meus livros</ui:define>
+ <ui:define name="content">
+
+    <h:form id="form">
+    	<p:menubar style="margin-bottom:20px">
+    		<p:menuitem value="Acervo" url="user.jsf"></p:menuitem>
+    		<p:menuitem value="Logout" action="#{gerenciamentoLivroNew.logout}"></p:menuitem>
+    	</p:menubar>
+    	
+    <f:event type="preRenderView" listener="#{gerenciamentoLivroNew.visualizarMeusLivros}" />
+    	
+ 	<p:dataTable value="#{gerenciamentoLivroNew.meusLivros}" var="meuLivro">
+		<p:column headerText="Título" filterBy="#{meuLivro.titulo}">
+			<h:outputText value="#{meuLivro.titulo}"/>
+		</p:column>
+		
+		<p:column headerText="Autor" filterBy="#{meuLivro.autor}">
+			<h:outputText value="#{meuLivro.autor}"/>
+		</p:column>
+		
+ 		<p:column headerText="Capa" style="width:100px; text-align:center">
+ 			<p:commandButton update=":form:capaDetail"  oncomplete="PF('livroDialog').show()" icon="ui-icon-bookmark" title="Visualizar"> 
+               <f:setPropertyActionListener value="#{meuLivro}" target="#{gerenciamentoLivroNew.livroSelecionado}" /> 
+             </p:commandButton> 
+ 		</p:column>
+ 		
+ 		<p:column headerText="Data de devolução" style="width:150px; text-align:center">
+ 			<h:outputText value="#{meuLivro.data.time}">
+				    <f:convertDateTime pattern="dd/MM/yy" />
+            </h:outputText>
+ 		</p:column>
+ 		
+ 		<p:column headerText="Devolver" style="width:100px; text-align:center">
+			<p:commandButton title="Devolver" icon="ui-icon-minus" oncomplete="PF('confirmarDialog').show()">	
+				<f:setPropertyActionListener value="#{meuLivro}" target="#{gerenciamentoLivroNew.livroSelecionado}"/>
+			</p:commandButton>		
+        </p:column>
+   
+	</p:dataTable>
+	
+ 	<p:dialog header="Capa" widgetVar="livroDialog" modal="true" showEffect="fade" hideEffect="fade" resizable="false" closeOnEscape="true"> 
+		<p:outputPanel id="capaDetail" style="text-align:center;"> 
+                   <p:graphicImage url="#{gerenciamentoLivroNew.livroSelecionado.capa}" height="200" width="150"/> 
+             </p:outputPanel>   
+ 	</p:dialog>
+ 	
+ 	<p:dialog header="Confirmar devolução" style="text-align:center" widgetVar="confirmarDialog" modal="true" showEffect="fade" hideEffect="fade" resizable="false" closeOnEscape="true">
+			
+			<p:growl life="2500">
+				<p:autoUpdate />
+			</p:growl>
+			
+			<p:commandButton value="Confirmar" icon="ui-icon-check" oncomplete="PF('confirmarDialog').hide()" action="#{gerenciamentoLivroNew.Devolver}"/>
+			<p:commandButton value="Cancelar" icon="ui-icon-closethick" oncomplete="PF('confirmarDialog').hide()"/>
+	</p:dialog>
+	
+ 	
+    </h:form>
+</ui:define>
+</ui:composition>
+</html>
