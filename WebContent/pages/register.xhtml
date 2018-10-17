@@ -20,15 +20,19 @@
 
 				<h:outputLabel value="Senha"></h:outputLabel>
 				<p:password id="password" value="#{criar.novoUsuario.password}" required="true" label="password" />
-
+	
+				<h:outputLabel value="Confirmar senha"/>
+				<p:password id="confirmPassword" required="true"/>
+	
+				<f:facet name="footer">
+					<p:commandButton value="Registrar" action="#{criar.add}" update="@form" style="margin-left:200px"/>
+				</f:facet>
 			</h:panelGrid>
 		</p:fieldset>
 
-		<p:toolbar style="width:330px">
-			<p:toolbarGroup>
-				<p:commandButton value="Registrar" action="#{criar.add}" update="@form" style="align:right"></p:commandButton>
-			</p:toolbarGroup>
-		</p:toolbar>
+		
+				
+			
 
 	</h:form>
 

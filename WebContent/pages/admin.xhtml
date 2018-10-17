@@ -18,11 +18,19 @@
 			</p:growl>
 	
 		<p:menubar style="margin-bottom:20px">
-    		<p:menuitem value="Acervo" url="user.jsf"></p:menuitem>
-    		<p:menuitem value="Logout"  action="#{gerenciamentoLivroNew.logout}"></p:menuitem>
+    		<p:menuitem value="Acervo" url="user.jsf"/>
+    		
+    	<p:submenu label="Administração">
+    		<p:menuitem value="Historico de empréstimos"/>
+    		<p:menuitem value="Livros atrasados"/>
+    	</p:submenu>	
+    	
+    		<f:facet name="options">
+    			<p:commandButton  value="Logout" ajax="false" action="#{gerenciamentoLivroNew.logout}" style="margin-right:10px" icon="ui-icon-extlink"/>
+    		</f:facet>
     	</p:menubar>
 
-		<p:fieldset legend="Adicionar livro" style="width:300px; margin-bottom:10px">
+		<p:fieldset legend="Adicionar livro" style="width:300px; margin-bottom:20px">
 			<h:panelGrid columns="2">
 				<h:outputLabel value="Título"></h:outputLabel>
 				<p:inputText value="#{gerenciamentoLivroNew.livro.titulo}"></p:inputText>
@@ -32,14 +40,15 @@
 
 				<h:outputLabel value="Capa"></h:outputLabel>
 				<p:inputText value="#{gerenciamentoLivroNew.livro.capa}"></p:inputText>
+			
+			<f:facet name="footer">
+				<p:commandButton value="Adicionar" action="#{gerenciamentoLivroNew.add}" update="@form" style="margin-left:160px" />
+			</f:facet>
+			
 			</h:panelGrid>
+			
+			
 		</p:fieldset>
-
-		<p:toolbar style="width:330px">
-			<p:toolbarGroup>
-				<p:commandButton value="Adicionar" action="#{gerenciamentoLivroNew.add}" update="@form" style="float:right"></p:commandButton>
-			</p:toolbarGroup>
-		</p:toolbar>
 
 	</h:form>
 

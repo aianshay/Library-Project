@@ -7,6 +7,9 @@
 <ui:composition template="/template/template.xhtml">
 	<ui:define name="Titulo">Login</ui:define>
 	<ui:define name="content">
+		<h:panelGrid columns="2">
+		
+		<p:panel style="width:400px; margin-left:300px; margin-right:50px">
 		<h:form>
 
 			<p:growl life="2500">
@@ -25,21 +28,28 @@
 						required="true" label="password" />
 						
 					<f:facet name="footer">
-						<p:commandButton value="Login" ajax="false" action="#{userLogin.login}" style="float:right" />
+						<p:commandButton value="Login" ajax="false" action="#{userLogin.login}" style="margin-left:220px" />
 					</f:facet>
 
 				</h:panelGrid>
 				
 			</p:fieldset>
 			
-			
 		</h:form>
+		</p:panel>
 		
+		<p:panel>
+			
 		<h:form>
-			<p:fieldset legend="Ainda não é usuário? Cadastre-se já!" style="width:400px" >
-				<p:commandButton value="Registrar-se" ajax="false" action="register.xhmtl?faces-redirect=true"/>
+			<p:fieldset legend="Ainda não é usuário? Cadastre-se já!" style="width:350px" >
+					<p:commandButton value="Registrar-se" ajax="false" action="register.xhmtl?faces-redirect=true" style="margin-left:208px"/>
 			</p:fieldset>
 		</h:form>
+			
+		</p:panel>
+		
+		</h:panelGrid>
+		
 		
 	</ui:define>
 </ui:composition>

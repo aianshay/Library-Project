@@ -12,7 +12,10 @@
     	<p:menubar style="margin-bottom:20px">
     		<p:menuitem value="Acervo" url="user.jsf"></p:menuitem>
     		<p:menuitem  value="Meus livros" url="mybooks.jsf"></p:menuitem>
-    		<p:menuitem value="Logout" url="index.jsf" action="#{gerenciamentoLivroNew.logout}" ></p:menuitem>
+    		
+    		<f:facet name="options">
+    			<p:commandButton  value="Logout" ajax="false" action="#{gerenciamentoLivroNew.logout}" style="margin-right:10px" icon="ui-icon-extlink"/>
+    		</f:facet>
     	</p:menubar>
     	
  	<f:event type="preRenderView" listener="#{gerenciamentoLivroNew.visualize}" />
