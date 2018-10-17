@@ -30,7 +30,7 @@
     		</f:facet>
     	</p:menubar>
 
-		<p:fieldset legend="Adicionar livro" style="width:300px; margin-bottom:20px">
+		<p:fieldset legend="Adicionar livro" style="width:300px">
 			<h:panelGrid columns="2">
 				<h:outputLabel value="Título"></h:outputLabel>
 				<p:inputText value="#{gerenciamentoLivroNew.livro.titulo}"></p:inputText>
@@ -39,7 +39,7 @@
 				<p:inputText value="#{gerenciamentoLivroNew.livro.autor}"></p:inputText>
 
 				<h:outputLabel value="Capa"></h:outputLabel>
-				<p:inputText value="#{gerenciamentoLivroNew.livro.capa}"></p:inputText>
+				<p:inputText value="#{gerenciamentoLivroNew.livro.capa}" style="margin-bottom:5px"></p:inputText>
 			
 			<f:facet name="footer">
 				<p:commandButton value="Adicionar" action="#{gerenciamentoLivroNew.add}" update="@form" style="margin-left:160px" />
