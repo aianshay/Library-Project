@@ -121,8 +121,6 @@ public class GerenciamentoLivroNew {
 	@SuppressWarnings({"unchecked"})
 	public List<Livro> visualizarMeusLivros(){
 		
-		System.out.println("user id: " + userSelecionado.getId());
-		
 		EntityManager em = new JPAUtil().getEntityManager();
 		
 		em.getTransaction().begin();
@@ -132,10 +130,6 @@ public class GerenciamentoLivroNew {
 		query.setParameter("pUserSelecionadoID", userSelecionado.getId());
 							
 		List<Livro> meusLivros = query.getResultList();
-		
-		for (Livro livro : meusLivros) {
-			System.out.println("nome: " + livro.getTitulo());
-		}
 		
 		em.getTransaction().commit();
 		em.close();
@@ -161,25 +155,25 @@ public class GerenciamentoLivroNew {
 			error();
 		else if (userSelecionado != null) {
 		
-		EntityManager em = new JPAUtil().getEntityManager();
+			EntityManager em = new JPAUtil().getEntityManager();
+			
+			em.getTransaction().begin();
+			
+			Calendar cal = Calendar.getInstance();
+			cal.add(Calendar.DATE, 15);
+			
+			livroSelecionado.setData(cal);
+			livroSelecionado.setUser(userSelecionado);
+			em.merge(livroSelecionado);
 		
-		em.getTransaction().begin();
-		
-		Calendar cal = Calendar.getInstance();
-		cal.add(Calendar.DATE, 15);
-		
-		livroSelecionado.setData(cal);
-		livroSelecionado.setUser(userSelecionado);
-		em.merge(livroSelecionado);
-	
-		em.getTransaction().commit();
-		em.close();	
-		
-		success();
+			em.getTransaction().commit();
+			em.close();	
+			
+			success();
 		}
 	}
 	
-public String Devolver() {
+	public String Devolver() {
 		
 		EntityManager em = new JPAUtil().getEntityManager();
 		

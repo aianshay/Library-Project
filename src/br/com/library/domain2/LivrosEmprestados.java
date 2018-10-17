@@ -1,20 +1,49 @@
 package br.com.library.domain2;
 
+import java.util.ArrayList;
 import java.util.List;
-
 import javax.faces.bean.ManagedBean;
 import javax.persistence.EntityManager;
-import javax.persistence.OneToMany;
 import javax.persistence.Query;
 
 import br.com.library.util.JPAUtil;
 
-@ManagedBean 
+@ManagedBean(name="livrosEmprestados")
 
 public class LivrosEmprestados {
 
-	public void visualizar(){
+	private List <Livro> livrosEmprestados = new ArrayList<>();
 	
+	public List<Livro> getLivrosEmprestados() {
+		return livrosEmprestados;
+	}
+
+	public void setLivrosEmprestados(List<Livro> livrosEmprestados) {
+		this.livrosEmprestados = livrosEmprestados;
+	}
+	
+	@SuppressWarnings("unchecked")
+	public LivrosEmprestados() {
+		super();
+		
+		EntityManager em = new JPAUtil().getEntityManager();
+		em.getTransaction().begin();
+	
+		String jpql = "select l from Livro l where user <> NULL";
+		Query query = em.createQuery(jpql);
+	
+		livrosEmprestados = query.getResultList();
+		
+		for (Livro livro : livrosEmprestados) {
+			System.out.println("nome: " + livro.getId());
+		}
+
+		em.getTransaction().commit();
+		em.close();
+	}
+	
+	public List<Livro> visualizarLivrosEmprestados(){
+		
 		EntityManager em = new JPAUtil().getEntityManager();
 		em.getTransaction().begin();
 	
@@ -25,27 +54,14 @@ public class LivrosEmprestados {
 		List<Livro> livrosEmprestados = query.getResultList();
 		
 		for (Livro livro : livrosEmprestados) {
-			System.out.println("nome: " + livro.getTitulo());
-			System.out.println("autor: ");
+			System.out.println("nome: " + livro.getId());
 		}
 
 		em.getTransaction().commit();
 		em.close();
-	
+		
+		return livrosEmprestados;
 	}
-	
-	
-	@OneToMany
-	List <Livro> livros;
-
-	public List<Livro> getLivros() {
-		return livros;
-	}
-
-	public void setLivros(List<Livro> livros) {
-		this.livros = livros;
-	}
-	
 	
 	
 }

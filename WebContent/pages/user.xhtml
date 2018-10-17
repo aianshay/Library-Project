@@ -21,6 +21,10 @@
  	<f:event type="preRenderView" listener="#{gerenciamentoLivroNew.visualize}" />
  
     <p:dataTable value="#{gerenciamentoLivroNew.livros}" var="livro">
+    	<f:facet name="header">
+        	Pesquisar acervo
+    	</f:facet>
+    	
 		<p:column headerText="Título" filterBy="#{livro.titulo}">
 			<h:outputText value="#{livro.titulo}"/>
 		</p:column>
