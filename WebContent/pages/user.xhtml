@@ -18,7 +18,7 @@
     		</f:facet>
     	</p:menubar>
     	
- 	<f:event type="preRenderView" listener="#{gerenciamentoLivroNew.visualize}" />
+ 	<f:event type="preRenderView" listener="#{gerenciamentoLivroNew.getLivros}" />
  
     <p:dataTable value="#{gerenciamentoLivroNew.livros}" var="livro">
     	<f:facet name="header">

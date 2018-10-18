@@ -18,40 +18,19 @@ import br.com.library.util.JPAUtil;
 public class GerenciamentoLivroNew {
 	
 	private Livro livro = new Livro();
-	
+
 	private List<Livro> livros = new ArrayList<>();
 	private List<Livro> meusLivros = new ArrayList<>();
-	
+
 	private Livro livroSelecionado = new Livro();
-	public static Users userSelecionado = new Users();
+	public static Users userSelecionado = new Users();	
 	
-	public String logout() {
-		userSelecionado = null;
-		return "index.jsf?faces-redirect=true";
-	}
-	
-	public Livro getLivroSelecionado() {
-		return livroSelecionado;
-	}
-
-	public void setLivroSelecionado(Livro livroSelecionado) {
-		this.livroSelecionado = livroSelecionado;
-	}
-
-	public List<Livro> getMeusLivros() {
-		return meusLivros;
-	}
-
-	public void setMeusLivros(List<Livro> meusLivros) {
-		this.meusLivros = meusLivros;
-	}
-
 	public List<Livro> getLivros() {
 		return livros;
 	}
 
-	public void setLivros(List<Livro> livros) {
-		this.livros = livros;
+	public List<Livro> getMeusLivros() {
+		return meusLivros;
 	}
 
 	public Livro getLivro() {
@@ -61,7 +40,15 @@ public class GerenciamentoLivroNew {
 	public void setLivro(Livro livro) {
 		this.livro = livro;
 	}
+	
+	public Livro getLivroSelecionado() {
+		return livroSelecionado;
+	}
 
+	public void setLivroSelecionado(Livro livroSelecionado) {
+		this.livroSelecionado = livroSelecionado;
+	}
+	
 	@SuppressWarnings("unchecked")
 	public GerenciamentoLivroNew() {
 		super();
@@ -84,6 +71,11 @@ public class GerenciamentoLivroNew {
 		
 	}
 	
+	public String logout() {
+		userSelecionado = null;
+		return "index.jsf?faces-redirect=true";
+	}
+	
 	public void add() {
 		
 		EntityManager em = new JPAUtil().getEntityManager();
@@ -99,55 +91,6 @@ public class GerenciamentoLivroNew {
 		
 		livro = new Livro();
 	}
-	
-	
-	@SuppressWarnings("unchecked")
-	public List<Livro> visualize() {
-		
-		EntityManager em = new JPAUtil().getEntityManager();
-		em.getTransaction().begin();
-		
-		String jpql = "select l from Livro l";
-		Query query = em.createQuery(jpql);
-		
-		List<Livro> livros = query.getResultList();
-	
-		em.getTransaction().commit();
-		em.close();
-		
-		return livros;
-	}
-	
-	@SuppressWarnings({"unchecked"})
-	public List<Livro> visualizarMeusLivros(){
-		
-		EntityManager em = new JPAUtil().getEntityManager();
-		
-		em.getTransaction().begin();
-		
-		String jpql = "select l from Livro l where l.user.id = :pUserSelecionadoID";
-		Query query = em.createQuery(jpql);
-		query.setParameter("pUserSelecionadoID", userSelecionado.getId());
-							
-		List<Livro> meusLivros = query.getResultList();
-		
-		em.getTransaction().commit();
-		em.close();
-	
-		return meusLivros;
-	}
-	
-	public void success() {
-        FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Livro emprestado com sucesso.",null));
-    }
-	
-	public void successBook() {
-        FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Livro adicionado com sucesso.",null));
-    }
-	
-	public void error() {
-        FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Livro já emprestado.",null));
-    }
 	
 	public void Emprestar() {
 		
@@ -189,5 +132,17 @@ public class GerenciamentoLivroNew {
 
 		return "mybooks.jsf?faces-redirect=true";
 	}
+	
+	public void success() {
+        FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Livro emprestado com sucesso.",null));
+    }
+	
+	public void successBook() {
+        FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Livro adicionado com sucesso.",null));
+    }
+	
+	public void error() {
+        FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Livro já emprestado.",null));
+    }
 	
 }

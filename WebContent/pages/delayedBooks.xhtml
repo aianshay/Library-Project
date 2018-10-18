@@ -5,7 +5,7 @@
     xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
   
  <ui:composition template="/template/template.xhtml">
- <ui:define name="Titulo">Meus livros</ui:define>
+ <ui:define name="Titulo">Livros emprestados</ui:define>
  <ui:define name="content">
 
     <h:form id="form">
@@ -17,39 +17,36 @@
     		</f:facet>
     	</p:menubar>
     	
-    <f:event type="preRenderView" listener="#{gerenciamentoLivroNew.getMeusLivros}" />
+    <f:event type="preRenderView" listener="#{livrosAtrasados.getLivrosAtrasados}" />
     	
- 	<p:dataTable value="#{gerenciamentoLivroNew.meusLivros}" var="meuLivro">
- 		<f:facet name="header">
-        	Meus livros emprestados
+ 	<p:dataTable value="#{livrosAtrasados.livrosAtrasados}" var="livroAtrasado">
+		<f:facet name="header">
+        	Livros atrasados
     	</f:facet>
- 		
-		<p:column headerText="Título" filterBy="#{meuLivro.titulo}">
-			<h:outputText value="#{meuLivro.titulo}"/>
+		
+		<p:column headerText="Título" filterBy="#{livroAtrasado.titulo}">
+			<h:outputText value="#{livroAtrasado.titulo}"/>
 		</p:column>
 		
-		<p:column headerText="Autor" filterBy="#{meuLivro.autor}">
-			<h:outputText value="#{meuLivro.autor}"/>
+		<p:column headerText="Autor" filterBy="#{livroAtrasado.autor}">
+			<h:outputText value="#{livroAtrasado.autor}"/>
 		</p:column>
 		
  		<p:column headerText="Capa" style="width:100px; text-align:center">
  			<p:commandButton update=":form:capaDetail"  oncomplete="PF('livroDialog').show()" icon="ui-icon-bookmark" title="Visualizar"> 
-               <f:setPropertyActionListener value="#{meuLivro}" target="#{gerenciamentoLivroNew.livroSelecionado}" /> 
+               <f:setPropertyActionListener value="#{livroAtrasado}" target="#{gerenciamentoLivroNew.livroSelecionado}" /> 
              </p:commandButton> 
  		</p:column>
  		
  		<p:column headerText="Data de devolução" style="width:150px; text-align:center">
- 			<h:outputText value="#{meuLivro.data.time}">
+ 			<h:outputText value="#{livroAtrasado.data.time}">
 				    <f:convertDateTime pattern="dd/MM/yy" />
             </h:outputText>
- 		</p:column>
- 		
- 		<p:column headerText="Devolver" style="width:100px; text-align:center">
-			<p:commandButton title="Devolver" icon="ui-icon-minus" oncomplete="PF('confirmarDialog').show()">	
-				<f:setPropertyActionListener value="#{meuLivro}" target="#{gerenciamentoLivroNew.livroSelecionado}"/>
-			</p:commandButton>		
-        </p:column>
+ 		</p:column>	
    
+   		<p:column headerText="Usuário" style="width:100px">
+   			<h:outputText value="#{livroAtrasado.user.login}"/>
+   		</p:column>
 	</p:dataTable>
 	
  	<p:dialog header="Capa" widgetVar="livroDialog" modal="true" showEffect="fade" hideEffect="fade" resizable="false" closeOnEscape="true"> 
@@ -57,17 +54,6 @@
                    <p:graphicImage url="#{gerenciamentoLivroNew.livroSelecionado.capa}" height="200" width="150"/> 
              </p:outputPanel>   
  	</p:dialog>
- 	
- 	<p:dialog header="Confirmar devolução" style="text-align:center" widgetVar="confirmarDialog" modal="true" showEffect="fade" hideEffect="fade" resizable="false" closeOnEscape="true">
-			
-			<p:growl life="2500">
-				<p:autoUpdate />
-			</p:growl>
-			
-			<p:commandButton value="Confirmar" icon="ui-icon-check" oncomplete="PF('confirmarDialog').hide()" action="#{gerenciamentoLivroNew.Devolver}"/>
-			<p:commandButton value="Cancelar" icon="ui-icon-closethick" oncomplete="PF('confirmarDialog').hide()"/>
-	</p:dialog>
-	
  	
     </h:form>
 </ui:define>

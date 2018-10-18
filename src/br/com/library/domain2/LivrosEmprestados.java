@@ -33,35 +33,9 @@ public class LivrosEmprestados {
 		Query query = em.createQuery(jpql);
 	
 		livrosEmprestados = query.getResultList();
-		
-		for (Livro livro : livrosEmprestados) {
-			System.out.println("nome: " + livro.getId());
-		}
-
-		em.getTransaction().commit();
-		em.close();
-	}
-	
-	public List<Livro> visualizarLivrosEmprestados(){
-		
-		EntityManager em = new JPAUtil().getEntityManager();
-		em.getTransaction().begin();
-	
-		String jpql = "select l from Livro l where user <> NULL";
-		Query query = em.createQuery(jpql);
-	
-		@SuppressWarnings("unchecked")
-		List<Livro> livrosEmprestados = query.getResultList();
-		
-		for (Livro livro : livrosEmprestados) {
-			System.out.println("nome: " + livro.getId());
-		}
 
 		em.getTransaction().commit();
 		em.close();
 		
-		return livrosEmprestados;
 	}
-	
-	
 }
