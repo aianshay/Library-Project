@@ -9,6 +9,8 @@ import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
 import javax.persistence.EntityManager;
 import javax.persistence.Query;
+
+//import br.com.library.domain2.HistoricoEmprestimos;
 import br.com.library.domain2.Livro;
 import br.com.library.domain2.Users;
 import br.com.library.util.JPAUtil;
@@ -105,9 +107,14 @@ public class GerenciamentoLivroNew {
 			Calendar cal = Calendar.getInstance();
 			cal.add(Calendar.DATE, 15);
 			
-			livroSelecionado.setData(cal);
+			livroSelecionado.setDataEmprestimo(Calendar.getInstance());
+			livroSelecionado.setDataDevolucao(cal);
 			livroSelecionado.setUser(userSelecionado);
+			
+			//final HistoricoEmprestimos livroHistorico = new HistoricoEmprestimos(livroSelecionado);
+			
 			em.merge(livroSelecionado);
+			//em.persist(livroHistorico);
 		
 			em.getTransaction().commit();
 			em.close();	
@@ -121,8 +128,9 @@ public class GerenciamentoLivroNew {
 		EntityManager em = new JPAUtil().getEntityManager();
 		
 		em.getTransaction().begin();
-		
-		livroSelecionado.setData(null);
+	
+		livroSelecionado.setDataDevolucao(null);
+		livroSelecionado.setDataEmprestimo(null);
 		livroSelecionado.setUser(null);
 		
 		em.merge(livroSelecionado);

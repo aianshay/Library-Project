@@ -20,17 +20,27 @@ public class Livro {
 	private String autor;
 	private String capa;
 	@Temporal(TemporalType.DATE)
-	private Calendar data;
+	private Calendar dataEmprestimo;
+	@Temporal(TemporalType.DATE)
+	private Calendar dataDevolucao;
 	
 	@ManyToOne
 	private Users user;
-	
-	public Calendar getData() {
-		return data;
+
+	public Calendar getDataEmprestimo() {
+		return dataEmprestimo;
 	}
 
-	public void setData(Calendar data) {
-		this.data = data;
+	public void setDataEmprestimo(Calendar dataEmprestimo) {
+		this.dataEmprestimo = dataEmprestimo;
+	}
+
+	public Calendar getDataDevolucao() {
+		return dataDevolucao;
+	}
+
+	public void setDataDevolucao(Calendar dataDevolucao) {
+		this.dataDevolucao = dataDevolucao;
 	}
 
 	public Users getUser() {

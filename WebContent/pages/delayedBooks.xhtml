@@ -12,6 +12,13 @@
     	<p:menubar style="margin-bottom:20px">
     		<p:menuitem value="Acervo" url="user.jsf"/>
     		
+    		<p:submenu label="Administração">
+    			<p:menuitem value="Adicionar/deletar livro" url="admin.jsf"/>
+    			<p:menuitem value="Livros emprestados" url="borrowedBooks.jsf"/>
+    			<p:menuitem value="Livros atrasados" url="delayedBooks.jsf"/>
+    			<p:menuitem value="Histórico de empréstimos"/>
+    		</p:submenu>
+    		
     		<f:facet name="options">
     			<p:commandButton  value="Logout" ajax="false" action="#{gerenciamentoLivroNew.logout}" style="margin-right:10px" icon="ui-icon-extlink"/>
     		</f:facet>
@@ -39,7 +46,7 @@
  		</p:column>
  		
  		<p:column headerText="Data de devolução" style="width:150px; text-align:center">
- 			<h:outputText value="#{livroAtrasado.data.time}">
+ 			<h:outputText value="#{livroAtrasado.dataDevolucao.time}">
 				    <f:convertDateTime pattern="dd/MM/yy" />
             </h:outputText>
  		</p:column>	

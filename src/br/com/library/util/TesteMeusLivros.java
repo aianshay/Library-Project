@@ -1,7 +1,5 @@
 package br.com.library.util;
 
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
 import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.Query;
@@ -15,8 +13,6 @@ public class TesteMeusLivros {
 		
 		EntityManager em = new JPAUtil().getEntityManager();
 		
-		DateFormat df = new SimpleDateFormat("dd-MM-yyyy");
-		
 		em.getTransaction().begin();
 		
 		String jpql = "select l from Livro l where l.user.id = :pUserID";
@@ -26,9 +22,8 @@ public class TesteMeusLivros {
 		List<Livro> MeusLivros = query.getResultList();
 		
 		for (Livro livro : MeusLivros) {
-			String dataFormatada = df.format(livro.getData());
 			System.out.println("Nome:" + livro.getTitulo());
-			System.out.println("Data de devolucao: " + dataFormatada);
+
 		}
 	
 		em.getTransaction().commit();
