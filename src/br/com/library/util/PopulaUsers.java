@@ -20,9 +20,9 @@ public class PopulaUsers {
 		admin.setPassword("admin");
 		
 		Livro livro1 = new Livro();
-		livro1.setAutor("Charles Duhigg");
-		livro1.setTitulo("O Poder do Hábito");
-		livro1.setCapa("https://images.livrariasaraiva.com.br/imagemnet/imagem.aspx/?pro_id=4238667&qld=90&l=430&a=-1");
+		livro1.setAutor("Charles Duhiggss");
+		livro1.setTitulo("O Poder do Hábitoss");
+		livro1.setCapa("https://images.livrariasaraiva.com.br/imagemnet/imagem.aspx/?pro_id=4238667&qld=90&l=430&a=-1ss");
 		
 		em.getTransaction().begin();
 		

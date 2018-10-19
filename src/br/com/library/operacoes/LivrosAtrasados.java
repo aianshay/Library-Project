@@ -28,7 +28,7 @@ public class LivrosAtrasados {
 		String jpql = "select l from Livro l where l.dataDevolucao < :pData";
 		Query query = em.createQuery(jpql);
 		query.setParameter("pData", Calendar.getInstance());
-
+		
 		livrosAtrasados = query.getResultList();
 
 		em.getTransaction().commit();

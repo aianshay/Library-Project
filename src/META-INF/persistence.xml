@@ -1,7 +1,26 @@
 <persistence xmlns="http://java.sun.com/xml/ns/persistence"
     		 xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    		 xsi:schemaLocation="http://java.sun.com/xml/ns/persistence http://java.sun.com/xml/ns/persistence/persistence_2_0.xsd"
+    		 xsi:schemaLocation="http://java.sun.com/xml/ns/persistence 
+    		 http://java.sun.com/xml/ns/persistence/persistence_2_0.xsd"
              version="2.0">
+             
+ <hibernate-mapping xmlns="urn:nhibernate-mapping-2.2">
+   <class name="br.com.library.domain2.Livro, br.com.library.domain2"
+   table="Livro" entity-name="Lirvo">`  
+     <id name="_id" access="field" column="OrderId">
+         <generator class="assigned"/>
+     </id>
+    <property name= ...>
+</class>
+
+<class name="br.com.library.HistoricoEmprestimos, HistoricoEmprestimos"
+ table="Historico" entity-name="HistoricoEmprestimos">
+     <id name="_id" access="field" column="OrderId">
+        <generator class="assigned"/>
+     </id>
+    <property name= ...>
+</class>
+</hibernate-mapping>
      
 
     <!-- unidade de persistencia com o nome financas -->

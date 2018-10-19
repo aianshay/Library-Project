@@ -11,7 +11,7 @@ import javax.persistence.TemporalType;
 
 @Entity
 
-public class Livro {
+public class HistoricoEmprestimos {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)

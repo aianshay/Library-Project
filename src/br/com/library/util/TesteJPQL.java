@@ -15,6 +15,7 @@ public class TesteJPQL {
 		EntityManager em = new JPAUtil().getEntityManager();
 		em.getTransaction().begin();
 		
+		
 		String login = "aian";
 		String password = "771225";
 		
@@ -22,7 +23,7 @@ public class TesteJPQL {
 		Query query = em.createQuery(jpql);
 		query.setParameter("pLogin", login);
 		query.setParameter("pPassword", password);
-		
+	
 		List<Users> result = query.getResultList();
 		
 		for (Users users : result) {
