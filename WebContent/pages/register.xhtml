@@ -12,8 +12,16 @@
 <ui:define name="content">
 
 	<h:form>
-
+		
+		<p:growl life="2500"> <p:autoUpdate/> </p:growl>
+		
+		<p:menubar style="margin-bottom:20px">
+    		<p:menuitem value="Fazer login" url="index.jsf"/>
+    	</p:menubar>	
+    		
+	
 		<p:fieldset legend="Registre-se" style="width:300px; margin-bottom:5px">
+		
 			<h:panelGrid columns="2">
 				<h:outputLabel value="Usuário"></h:outputLabel>
 				<p:inputText value="#{criar.novoUsuario.login}"></p:inputText>
@@ -22,7 +30,7 @@
 				<p:password id="password" value="#{criar.novoUsuario.password}" required="true" label="password" />
 	
 				<h:outputLabel value="Confirmar senha"/>
-				<p:password id="confirmPassword" required="true"/>
+				<p:password id="confirmPassword" value="#{criar.confirmacaoSenha}" required="true" label="password"/>
 	
 				<f:facet name="footer">
 					<p:commandButton value="Registrar" action="#{criar.add}" update="@form" style="margin-left:200px"/>

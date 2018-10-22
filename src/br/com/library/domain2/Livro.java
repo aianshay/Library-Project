@@ -23,6 +23,7 @@ public class Livro {
 	private Calendar dataEmprestimo;
 	@Temporal(TemporalType.DATE)
 	private Calendar dataDevolucao;
+	private int quantidade;
 	
 	@ManyToOne
 	private Users user;
@@ -82,5 +83,15 @@ public class Livro {
 	public void setId(Integer id) {
 		this.id = id;
 	}
+
+	public int getQuantidade() {
+		return quantidade;
+	}
+
+	public void setQuantidade(int quantidade) {
+		this.quantidade = quantidade;
+	}
+	
+	
 
 }

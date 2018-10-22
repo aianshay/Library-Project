@@ -10,9 +10,8 @@ import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
 @Entity
-
 public class HistoricoEmprestimos {
-
+	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer id;
@@ -82,5 +81,7 @@ public class HistoricoEmprestimos {
 	public void setId(Integer id) {
 		this.id = id;
 	}
+	
+	
 
 }

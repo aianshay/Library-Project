@@ -13,9 +13,7 @@
 
 	<h:form>
 	
-		<p:growl life="2500">
-				<p:autoUpdate />
-			</p:growl>
+		<p:growl life="2500"> <p:autoUpdate/> </p:growl>
 	
 		<p:menubar style="margin-bottom:20px">
     		<p:menuitem value="Acervo" url="user.jsf"/>
@@ -24,7 +22,7 @@
     		<p:menuitem value="Adicionar/deletar livro" url="admin.jsf"/>
     		<p:menuitem value="Livros emprestados" url="borrowedBooks.jsf"/>
     		<p:menuitem value="Livros atrasados" url="delayedBooks.jsf"/>
-    		<p:menuitem value="Histórico de empréstimos"/>
+    		<p:menuitem value="Histórico de empréstimos"  url="historic.jsf"/>
     	</p:submenu>	
     	
     		<f:facet name="options">
@@ -34,17 +32,20 @@
 
 		<p:fieldset legend="Adicionar livro" style="width:300px">
 			<h:panelGrid columns="2">
-				<h:outputLabel value="Título"></h:outputLabel>
-				<p:inputText value="#{gerenciamentoLivroNew.livro.titulo}"></p:inputText>
+				<h:outputLabel value="Título"/>
+				<p:inputText value="#{gerenciamentoLivroNew.livro.titulo}"/>
 
-				<h:outputLabel value="Autor"></h:outputLabel>
-				<p:inputText value="#{gerenciamentoLivroNew.livro.autor}"></p:inputText>
+				<h:outputLabel value="Autor"/>
+				<p:inputText value="#{gerenciamentoLivroNew.livro.autor}"/>
+				
+				<h:outputLabel value="Quantidade"/>
+				<p:inputText value="#{gerenciamentoLivroNew.livro.quantidade}"/>
 
-				<h:outputLabel value="Capa"></h:outputLabel>
-				<p:inputText value="#{gerenciamentoLivroNew.livro.capa}" style="margin-bottom:5px"></p:inputText>
-			
+				<h:outputLabel value="Capa"/>
+				<p:inputText value="#{gerenciamentoLivroNew.livro.capa}" style="margin-bottom:5px"/>
+				
 			<f:facet name="footer">
-				<p:commandButton value="Adicionar" action="#{gerenciamentoLivroNew.add}" update="@form" style="margin-left:160px" />
+				<p:commandButton value="Adicionar" action="#{gerenciamentoLivroNew.add}" update="@form" style="margin-left:160px"/>
 			</f:facet>
 			
 			</h:panelGrid>

@@ -5,7 +5,7 @@
     xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
   
  <ui:composition template="/template/template.xhtml">
- <ui:define name="Titulo">Livros emprestados</ui:define>
+ <ui:define name="Titulo">Histórico</ui:define>
  <ui:define name="content">
 
     <h:form id="form">
@@ -26,43 +26,31 @@
     		</f:facet>
     	</p:menubar>
     	
-    <f:event type="preRenderView" listener="#{livrosEmprestados.getLivrosEmprestados}" />
+    <f:event type="preRenderView" listener="#{visualizarHistorico.getHistorico}" />
     	
- 	<p:dataTable value="#{livrosEmprestados.livrosEmprestados}" var="livroEmprestado">
+ 	<p:dataTable value="#{visualizarHistorico.historico}" var="livro">
 		<f:facet name="header">
-        	Livros emprestados no momento
+        	Histórico de Empréstimo
     	</f:facet>
 		
-		<p:column headerText="Título" filterBy="#{livroEmprestado.titulo}">
-			<h:outputText value="#{livroEmprestado.titulo}"/>
+		<p:column headerText="Título" filterBy="#{livro.titulo}">
+			<h:outputText value="#{livro.titulo}"/>
 		</p:column>
 		
-		<p:column headerText="Autor" filterBy="#{livroEmprestado.autor}">
-			<h:outputText value="#{livroEmprestado.autor}"/>
+		<p:column headerText="Autor" filterBy="#{livro.autor}">
+			<h:outputText value="#{livro.autor}"/>
 		</p:column>
-		
- 		<p:column headerText="Capa" style="width:100px; text-align:center">
- 			<p:commandButton update=":form:capaDetail"  oncomplete="PF('livroDialog').show()" icon="ui-icon-bookmark" title="Visualizar"> 
-               <f:setPropertyActionListener value="#{livroEmprestado}" target="#{gerenciamentoLivroNew.livroSelecionado}" /> 
-             </p:commandButton> 
- 		</p:column>
  		
  		<p:column headerText="Data de devolução" style="width:150px; text-align:center">
- 			<h:outputText value="#{livroEmprestado.dataDevolucao.time}">
+ 			<h:outputText value="#{livro.dataDevolucao.time}">
 				    <f:convertDateTime pattern="dd/MM/yy" />
             </h:outputText>
  		</p:column>	
    
    		<p:column headerText="Usuário" style="width:100px">
-   			<h:outputText value="#{livroEmprestado.user.login}"/>
+   			<h:outputText value="#{livro.user.login}"/>
    		</p:column>
 	</p:dataTable>
-	
- 	<p:dialog header="Capa" widgetVar="livroDialog" modal="true" showEffect="fade" hideEffect="fade" resizable="false" closeOnEscape="true"> 
-		<p:outputPanel id="capaDetail" style="text-align:center;"> 
-                   <p:graphicImage url="#{gerenciamentoLivroNew.livroSelecionado.capa}" height="200" width="150"/> 
-             </p:outputPanel>   
- 	</p:dialog>
  	
     </h:form>
 </ui:define>

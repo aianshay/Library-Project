@@ -49,10 +49,8 @@
 	
 	<p:dialog header="Confirmar empréstimo" style="text-align:center" widgetVar="confirmarDialog" modal="true" showEffect="fade" hideEffect="fade" resizable="false" closeOnEscape="true">
 			
-			<p:growl life="2500">
-				<p:autoUpdate />
-			</p:growl>
-			
+			<p:growl life="2500"> <p:autoUpdate/> </p:growl>
+				
 			<p:commandButton value="Confirmar" icon="ui-icon-check" oncomplete="PF('confirmarDialog').hide()" action="#{gerenciamentoLivroNew.Emprestar}"/>
 			<p:commandButton value="Cancelar" icon="ui-icon-closethick" oncomplete="PF('confirmarDialog').hide()"/>
 	</p:dialog>

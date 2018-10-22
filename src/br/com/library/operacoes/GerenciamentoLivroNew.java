@@ -9,8 +9,7 @@ import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
 import javax.persistence.EntityManager;
 import javax.persistence.Query;
-
-//import br.com.library.domain2.HistoricoEmprestimos;
+import br.com.library.domain2.HistoricoEmprestimos;
 import br.com.library.domain2.Livro;
 import br.com.library.domain2.Users;
 import br.com.library.util.JPAUtil;
@@ -96,7 +95,7 @@ public class GerenciamentoLivroNew {
 	
 	public void Emprestar() {
 		
-		if(livroSelecionado.getUser() != null)
+		if(livroSelecionado.getUser() != null || livroSelecionado.getQuantidade() == 0)
 			error();
 		else if (userSelecionado != null) {
 		
@@ -110,11 +109,11 @@ public class GerenciamentoLivroNew {
 			livroSelecionado.setDataEmprestimo(Calendar.getInstance());
 			livroSelecionado.setDataDevolucao(cal);
 			livroSelecionado.setUser(userSelecionado);
+			livroSelecionado.setQuantidade(livroSelecionado.getQuantidade() - 1);
 			
-			//final HistoricoEmprestimos livroHistorico = new HistoricoEmprestimos(livroSelecionado);
+			SalvarNoHistorico(livroSelecionado);
 			
 			em.merge(livroSelecionado);
-			//em.persist(livroHistorico);
 		
 			em.getTransaction().commit();
 			em.close();	
@@ -123,6 +122,28 @@ public class GerenciamentoLivroNew {
 		}
 	}
 	
+	public void SalvarNoHistorico(Livro livro) {
+		
+		HistoricoEmprestimos salvar = new HistoricoEmprestimos();
+		
+		salvar.setTitulo(livro.getTitulo());
+		salvar.setAutor(livro.getAutor());
+		salvar.setCapa(livro.getCapa());
+		salvar.setDataDevolucao(livro.getDataDevolucao());
+		salvar.setDataEmprestimo(livro.getDataEmprestimo());
+		salvar.setUser(livro.getUser());
+		
+		EntityManager em = new JPAUtil().getEntityManager();
+		
+		em.getTransaction().begin();
+		
+		em.persist(salvar);
+		
+		em.getTransaction().commit();
+		em.close();
+	}
+		
+
 	public String Devolver() {
 		
 		EntityManager em = new JPAUtil().getEntityManager();
