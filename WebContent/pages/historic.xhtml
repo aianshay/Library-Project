@@ -41,6 +41,12 @@
 			<h:outputText value="#{livro.autor}"/>
 		</p:column>
  		
+ 		<p:column headerText="Data de empréstimo" style="width:150px; text-align:center">
+ 			<h:outputText value="#{livro.dataEmprestimo.time}">
+				    <f:convertDateTime pattern="dd/MM/yy" />
+            </h:outputText>
+ 		</p:column>	
+ 		
  		<p:column headerText="Data de devolução" style="width:150px; text-align:center">
  			<h:outputText value="#{livro.dataDevolucao.time}">
 				    <f:convertDateTime pattern="dd/MM/yy" />

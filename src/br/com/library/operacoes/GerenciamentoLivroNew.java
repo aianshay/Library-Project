@@ -153,6 +153,7 @@ public class GerenciamentoLivroNew {
 		livroSelecionado.setDataDevolucao(null);
 		livroSelecionado.setDataEmprestimo(null);
 		livroSelecionado.setUser(null);
+		livroSelecionado.setQuantidade(livroSelecionado.getQuantidade() + 1);
 		
 		em.merge(livroSelecionado);
 	
@@ -160,6 +161,22 @@ public class GerenciamentoLivroNew {
 		em.close();	
 
 		return "mybooks.jsf?faces-redirect=true";
+	}
+	
+	public void Remover() {
+		
+		EntityManager em = new JPAUtil().getEntityManager();
+		
+		em.getTransaction().begin();
+		
+		String jpql = "delete from Livro l where l.id = :pId";
+		Query query = em.createQuery(jpql);
+		query.setParameter("pId",livroSelecionado.getId());
+		
+		query.executeUpdate();
+		
+		em.getTransaction().commit();
+		em.close();
 	}
 	
 	public void success() {

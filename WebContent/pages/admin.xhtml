@@ -10,8 +10,7 @@
 <ui:define name="Titulo">Gerenciar acervo</ui:define>
 
 <ui:define name="content">
-
-	<h:form>
+	<h:form id="form">
 	
 		<p:growl life="2500"> <p:autoUpdate/> </p:growl>
 	
@@ -29,7 +28,11 @@
     			<p:commandButton  value="Logout" ajax="false" action="#{gerenciamentoLivroNew.logout}" style="margin-right:10px" icon="ui-icon-extlink"/>
     		</f:facet>
     	</p:menubar>
-
+		
+	<h:panelGrid columns="2">
+	
+	<p:panel style="width:400px; margin-right:40px">
+		
 		<p:fieldset legend="Adicionar livro" style="width:300px">
 			<h:panelGrid columns="2">
 				<h:outputLabel value="Título"/>
@@ -45,14 +48,58 @@
 				<p:inputText value="#{gerenciamentoLivroNew.livro.capa}" style="margin-bottom:5px"/>
 				
 			<f:facet name="footer">
-				<p:commandButton value="Adicionar" action="#{gerenciamentoLivroNew.add}" update="@form" style="margin-left:160px"/>
+				<p:commandButton value="Adicionar" action="#{gerenciamentoLivroNew.add}" update="@form" style="margin-left:200px"/>
 			</f:facet>
 			
 			</h:panelGrid>
-			
-			
-		</p:fieldset>
+			</p:fieldset>
+		</p:panel>
+		
+		<p:panel style="width:1080px; margin-right:40px">
+		
+			<p:dataTable value="#{gerenciamentoLivroNew.livros}" var="livro">
+		    	<f:facet name="header"> Remover livro </f:facet>
+		    	
+				<p:column headerText="Título" filterBy="#{livro.titulo}">
+					<h:outputText value="#{livro.titulo}"/>
+				</p:column>
+				
+				<p:column headerText="Autor" 	 filterBy="#{livro.autor}">
+					<h:outputText value="#{livro.autor}"/>
+				</p:column>
+				
+				<p:column headerText="Capa" style="width:100px; text-align:center">
+					<p:commandButton update=":form:capaDetail"  oncomplete="PF('livroDialog').show()" icon="ui-icon-bookmark" title="Visualizar">
+		                <f:setPropertyActionListener value="#{livro}" target="#{gerenciamentoLivroNew.livroSelecionado}" />
+		            </p:commandButton>
+				</p:column>
+					
+				<p:column headerText="Remover" style="width:100px; text-align:center">
+					<p:commandButton icon="ui-icon-minus" oncomplete="PF('confirmarDialog').show()">	
+						<f:setPropertyActionListener value="#{livro}" target="#{gerenciamentoLivroNew.livroSelecionado}"/>
+					</p:commandButton>		
+		        </p:column>
+		
+			</p:dataTable>
+		
+		</p:panel>
+		
 
+	</h:panelGrid>
+	
+	<p:dialog header="Confirmar exclusão" style="text-align:center" widgetVar="confirmarDialog" modal="true" showEffect="fade" hideEffect="fade" resizable="false" closeOnEscape="true">
+			<p:growl life="2500"> <p:autoUpdate/> </p:growl>
+				
+			<p:commandButton value="Confirmar" icon="ui-icon-check" oncomplete="PF('confirmarDialog').hide()" action="#{gerenciamentoLivroNew.Remover}"/>
+			<p:commandButton value="Cancelar" icon="ui-icon-closethick" oncomplete="PF('confirmarDialog').hide()"/>
+	</p:dialog>
+	
+	<p:dialog header="Capa" widgetVar="livroDialog" modal="true" showEffect="fade" hideEffect="fade" resizable="false" closeOnEscape="true">
+			<p:outputPanel id="capaDetail" style="text-align:center;">
+                    <p:graphicImage url="#{gerenciamentoLivroNew.livroSelecionado.capa}" height="200" width="150"/> 
+            </p:outputPanel>    
+	</p:dialog>
+	
 	</h:form>
 
 </ui:define>

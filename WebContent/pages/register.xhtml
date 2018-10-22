@@ -20,7 +20,7 @@
     	</p:menubar>	
     		
 	
-		<p:fieldset legend="Registre-se" style="width:300px; margin-bottom:5px">
+		<p:fieldset legend="Registre-se" style="width:300px; margin-bottom:5px;margin-left:550px">
 		
 			<h:panelGrid columns="2">
 				<h:outputLabel value="Usuário"></h:outputLabel>
@@ -30,10 +30,10 @@
 				<p:password id="password" value="#{criar.novoUsuario.password}" required="true" label="password" />
 	
 				<h:outputLabel value="Confirmar senha"/>
-				<p:password id="confirmPassword" value="#{criar.confirmacaoSenha}" required="true" label="password"/>
+				<p:password id="confirmPassword" value="#{criar.confirmacaoSenha}" label="password"/>
 	
 				<f:facet name="footer">
-					<p:commandButton value="Registrar" action="#{criar.add}" update="@form" style="margin-left:200px"/>
+					<p:commandButton value="Registrar" action="#{criar.add}" update="@form" style="margin-left:210px"/>
 				</f:facet>
 			</h:panelGrid>
 		</p:fieldset>

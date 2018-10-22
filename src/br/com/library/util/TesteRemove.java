@@ -3,20 +3,23 @@ package br.com.library.util;
 import javax.persistence.EntityManager;
 import javax.persistence.Query;
 
+import br.com.library.domain2.Users;
+
 public class TesteRemove {
 
 	public static void main(String[] args) {
 		
 		EntityManager em = new JPAUtil().getEntityManager();
 		
-		String login = "lucas";
-//		String password = "123456";
+		Users user = new Users();
+		
+		user.setId(8);
 		
 		em.getTransaction().begin();
 		
-		String jpql = "delete from Users u where u.login = :pLogin";
+		String jpql = "delete from Users u where u.id = :pId";
 		Query query = em.createQuery(jpql);
-		query.setParameter("pLogin",login);
+		query.setParameter("pId",user.getId());
 		
 		query.executeUpdate();
 		
