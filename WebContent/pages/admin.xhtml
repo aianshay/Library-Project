@@ -48,7 +48,7 @@
 				<p:inputText value="#{gerenciamentoLivroNew.livro.capa}" style="margin-bottom:5px"/>
 				
 			<f:facet name="footer">
-				<p:commandButton value="Adicionar" action="#{gerenciamentoLivroNew.add}" update="@form" style="margin-left:200px"/>
+				<p:commandButton value="Adicionar" action="#{gerenciamentoLivroNew.add}" update="@form" style="margin-left:207px"/>
 			</f:facet>
 			
 			</h:panelGrid>
@@ -68,6 +68,10 @@
 					<h:outputText value="#{livro.autor}"/>
 				</p:column>
 				
+				<p:column headerText="Estoque" style="width:100px; text-align:center">
+					<h:outputText value="#{livro.quantidade}"/>
+				</p:column>
+				
 				<p:column headerText="Capa" style="width:100px; text-align:center">
 					<p:commandButton update=":form:capaDetail"  oncomplete="PF('livroDialog').show()" icon="ui-icon-bookmark" title="Visualizar">
 		                <f:setPropertyActionListener value="#{livro}" target="#{gerenciamentoLivroNew.livroSelecionado}" />
@@ -75,7 +79,7 @@
 				</p:column>
 					
 				<p:column headerText="Remover" style="width:100px; text-align:center">
-					<p:commandButton icon="ui-icon-minus" oncomplete="PF('confirmarDialog').show()">	
+					<p:commandButton icon="ui-icon-trash" oncomplete="PF('confirmarDialog').show()">	
 						<f:setPropertyActionListener value="#{livro}" target="#{gerenciamentoLivroNew.livroSelecionado}"/>
 					</p:commandButton>		
 		        </p:column>

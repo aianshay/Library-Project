@@ -77,7 +77,7 @@ public class GerenciamentoLivroNew {
 		return "index.jsf?faces-redirect=true";
 	}
 	
-	public void add() {
+	public String add() {
 		
 		EntityManager em = new JPAUtil().getEntityManager();
 		
@@ -91,6 +91,8 @@ public class GerenciamentoLivroNew {
 		successBook();
 		
 		livro = new Livro();
+		
+		return "admin.jsf?faces-redirect=true";
 	}
 	
 	public void Emprestar() {
@@ -163,7 +165,7 @@ public class GerenciamentoLivroNew {
 		return "mybooks.jsf?faces-redirect=true";
 	}
 	
-	public void Remover() {
+	public String Remover() {
 		
 		EntityManager em = new JPAUtil().getEntityManager();
 		
@@ -177,10 +179,18 @@ public class GerenciamentoLivroNew {
 		
 		em.getTransaction().commit();
 		em.close();
+		
+		removeSuccess();
+		
+		return "admin.jsf?faces-redirect=true";
 	}
 	
 	public void success() {
         FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Livro emprestado com sucesso.",null));
+    }
+	
+	public void removeSuccess() {
+        FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Livro removido com sucesso.",null));
     }
 	
 	public void successBook() {
