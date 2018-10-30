@@ -40,7 +40,7 @@ public class Users {
 	
 	@Override
 	public String toString() {                                      //toString é um formatador de objeto
-		String out = "ID: " + id + " Usuário: " + login; 		//ensina o Java a imprimir o que ta num endereço de memoria
+		String out = " Usuário: " + login; 		//ensina o Java a imprimir o que ta num endereço de memoria
 		return out;
 	}
 

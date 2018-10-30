@@ -1,11 +1,14 @@
 package br.com.library.domain2;
 
 import java.util.Calendar;
+import java.util.List;
+
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.ManyToOne;
+import javax.persistence.ManyToMany;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
@@ -25,8 +28,8 @@ public class Livro {
 	private Calendar dataDevolucao;
 	private int quantidade;
 	
-	@ManyToOne
-	private Users user;
+	@ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
+	private List<Users> user;
 
 	public Calendar getDataEmprestimo() {
 		return dataEmprestimo;
@@ -44,11 +47,19 @@ public class Livro {
 		this.dataDevolucao = dataDevolucao;
 	}
 
-	public Users getUser() {
+	public void addUser(Users usuario) {
+		user.add(usuario);
+	}
+	
+	public void removeUser(Users usuario) {
+		user.remove(usuario);
+	}
+
+	public List<Users> getUser() {
 		return user;
 	}
 
-	public void setUser(Users user) {
+	public void setUser(List<Users> user) {
 		this.user = user;
 	}
 

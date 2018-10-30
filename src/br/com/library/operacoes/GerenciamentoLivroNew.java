@@ -59,12 +59,12 @@ public class GerenciamentoLivroNew {
 		
 		String jpql = "select l from Livro l";
 		Query query = em.createQuery(jpql);
-		
-		String jpql2 = "select l from Livro l where l.user.id = :pUserSelecionadoID";
+				
+		String jpql2 = "select l from Livro l join l.user u where u.id = :pUserSelecionadoID";
 		Query query2 = em.createQuery(jpql2);
 		query2.setParameter("pUserSelecionadoID", userSelecionado.getId());
 		
-		livros = query.getResultList();
+		livros = query.getResultList();	
 		meusLivros = query2.getResultList();
 		
 		em.getTransaction().commit();
@@ -110,10 +110,10 @@ public class GerenciamentoLivroNew {
 			
 			livroSelecionado.setDataEmprestimo(Calendar.getInstance());
 			livroSelecionado.setDataDevolucao(cal);
-			livroSelecionado.setUser(userSelecionado);
+		//	livroSelecionado.setUser(userSelecionado);
 			livroSelecionado.setQuantidade(livroSelecionado.getQuantidade() - 1);
 			
-			SalvarNoHistorico(livroSelecionado);
+			//SalvarNoHistorico(livroSelecionado);
 			
 			em.merge(livroSelecionado);
 		
@@ -124,16 +124,47 @@ public class GerenciamentoLivroNew {
 		}
 	}
 	
-	public void SalvarNoHistorico(Livro livro) {
+	public void EmprestarNew() {
+		
+		if(livroSelecionado.getQuantidade() > 0) {
+			
+			Livro livroAux = new Livro();
+			Users userAux = new Users();
+			
+			EntityManager em = new JPAUtil().getEntityManager();
+			
+			em.getTransaction().begin();
+			
+			userAux = em.find(Users.class, userSelecionado.getId());
+			
+			livroAux = em.find(Livro.class, livroSelecionado.getId());
+			livroAux.addUser(userAux);
+			livroAux.setQuantidade(livroSelecionado.getQuantidade() - 1);
+			
+			SalvarNoHistorico(livroAux, userAux);
+		
+			em.persist(livroAux);
+			
+			em.getTransaction().commit();
+			em.close();
+			
+			success();
+			
+		}else
+			error();
+		
+		
+	}
+	
+	public void SalvarNoHistorico(Livro livro, Users user) {
 		
 		HistoricoEmprestimos salvar = new HistoricoEmprestimos();
 		
 		salvar.setTitulo(livro.getTitulo());
 		salvar.setAutor(livro.getAutor());
 		salvar.setCapa(livro.getCapa());
-		salvar.setDataDevolucao(livro.getDataDevolucao());
-		salvar.setDataEmprestimo(livro.getDataEmprestimo());
-		salvar.setUser(livro.getUser());
+		salvar.setDataEmprestimo(Calendar.getInstance());
+		salvar.setUser(user);
 		
 		EntityManager em = new JPAUtil().getEntityManager();
 		
@@ -150,17 +181,24 @@ public class GerenciamentoLivroNew {
 		
 		EntityManager em = new JPAUtil().getEntityManager();
 		
-		em.getTransaction().begin();
-	
-		livroSelecionado.setDataDevolucao(null);
-		livroSelecionado.setDataEmprestimo(null);
-		livroSelecionado.setUser(null);
-		livroSelecionado.setQuantidade(livroSelecionado.getQuantidade() + 1);
+		Livro livro1 = new Livro();
 		
-		em.merge(livroSelecionado);
-	
+		em.getTransaction().begin();
+		
+		livro1 = em.find(Livro.class, livroSelecionado.getId());
+		
+		for (Users usuario : livro1.getUser()) {
+			if(usuario.getId() == userSelecionado.getId()) {
+				livro1.getUser().remove(usuario);
+				livro1.setQuantidade(livroSelecionado.getQuantidade() + 1);
+				break;
+			}
+		}
+		
+		em.persist(livro1);
+		
 		em.getTransaction().commit();
-		em.close();	
+		em.close();
 
 		return "mybooks.jsf?faces-redirect=true";
 	}

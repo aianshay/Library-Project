@@ -30,9 +30,12 @@ public class LivrosEmprestados {
 		EntityManager em = new JPAUtil().getEntityManager();
 		em.getTransaction().begin();
 	
-		String jpql = "select l from Livro l where user <> NULL";
+		String jpql = "select l from Livro l join fetch l.user u where u <> NULL";
 		Query query = em.createQuery(jpql);
 	
+//		String jpql = "select u from Users u join u.livro l where l.login <> NULL";
+//		Query query = em.createQuery(jpql);
+		
 		livrosEmprestados = query.getResultList();
 
 		em.getTransaction().commit();

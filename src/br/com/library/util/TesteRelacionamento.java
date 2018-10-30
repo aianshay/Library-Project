@@ -6,7 +6,7 @@ import java.util.List;
 import br.com.library.domain2.Users;
 import br.com.library.domain2.Livro;
 
-@SuppressWarnings({"unchecked"})
+@SuppressWarnings("unchecked")
 public class TesteRelacionamento {
 	
 	public static void main(String args[]) {
@@ -35,14 +35,6 @@ public class TesteRelacionamento {
 	
 	List<Users> result = query2.getResultList();
 	
-	Users userResult = new Users();
-	
-	for (Users users : result) {
-		userResult=users;
-	}
-	
-	
-	livroResult.setUser(userResult);
 	
 	em.getTransaction().begin();	
 	
