@@ -1,6 +1,6 @@
 package br.com.library.operacoes;
 
-import br.com.library.domain2.Livro;
+import br.com.library.domain2.LivroUsers;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
@@ -12,9 +12,9 @@ import br.com.library.util.JPAUtil;
 @ManagedBean(name="livrosAtrasados")
 public class LivrosAtrasados {
 
-	List<Livro> livrosAtrasados = new ArrayList<>();
+	List<LivroUsers> livrosAtrasados = new ArrayList<>();
 	
-	public List<Livro> getLivrosAtrasados() {
+	public List<LivroUsers> getLivrosAtrasados() {
 		return livrosAtrasados;
 	}
 
@@ -25,7 +25,7 @@ public class LivrosAtrasados {
 		EntityManager em = new JPAUtil().getEntityManager();
 		em.getTransaction().begin();
 
-		String jpql = "select l from Livro l where l.dataDevolucao < :pData";
+		String jpql = "select c from LivroUsers c where c.dataDevolucao < :pData";
 		Query query = em.createQuery(jpql);
 		query.setParameter("pData", Calendar.getInstance());
 		

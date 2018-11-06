@@ -25,6 +25,11 @@
         	Pesquisar acervo
     	</f:facet>
     	
+    	<p:column headerText="ID" style="width:20px; text-align:center" rendered="false">
+    		<h:outputText value="#{livro.id}"/>
+    	</p:column>
+    	
+    	
 		<p:column headerText="Título" filterBy="#{livro.titulo}">
 			<h:outputText value="#{livro.titulo}"/>
 		</p:column>
@@ -51,7 +56,7 @@
 			
 			<p:growl life="2500"> <p:autoUpdate/> </p:growl>
 				
-			<p:commandButton value="Confirmar" icon="ui-icon-check" oncomplete="PF('confirmarDialog').hide()" action="#{gerenciamentoLivroNew.EmprestarNew}"/>
+			<p:commandButton value="Confirmar" icon="ui-icon-check" oncomplete="PF('confirmarDialog').hide()" action="#{gerenciamentoLivroNew.emprestar}"/>
 			<p:commandButton value="Cancelar" icon="ui-icon-closethick" oncomplete="PF('confirmarDialog').hide()"/>
 	</p:dialog>
 	

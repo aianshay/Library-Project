@@ -11,6 +11,7 @@ import javax.persistence.EntityManager;
 import javax.persistence.Query;
 import br.com.library.domain2.HistoricoEmprestimos;
 import br.com.library.domain2.Livro;
+import br.com.library.domain2.LivroUsers;
 import br.com.library.domain2.Users;
 import br.com.library.util.JPAUtil;
 
@@ -22,10 +23,19 @@ public class GerenciamentoLivroNew {
 
 	private List<Livro> livros = new ArrayList<>();
 	private List<Livro> meusLivros = new ArrayList<>();
+	private List<LivroUsers> livroUsers = new ArrayList<>();
 
 	private Livro livroSelecionado = new Livro();
 	public static Users userSelecionado = new Users();	
 	
+	public List<LivroUsers> getLivroUsers() {
+		return livroUsers;
+	}
+
+	public void setLivroUsers(List<LivroUsers> livroUsers) {
+		this.livroUsers = livroUsers;
+	}
+
 	public List<Livro> getLivros() {
 		return livros;
 	}
@@ -59,13 +69,13 @@ public class GerenciamentoLivroNew {
 		
 		String jpql = "select l from Livro l";
 		Query query = em.createQuery(jpql);
-				
-		String jpql2 = "select l from Livro l join l.user u where u.id = :pUserSelecionadoID";
+		
+		String jpql2 = "select c from LivroUsers c where c.userId = :puserId";
 		Query query2 = em.createQuery(jpql2);
-		query2.setParameter("pUserSelecionadoID", userSelecionado.getId());
+		query2.setParameter("puserId", userSelecionado.getId());
 		
 		livros = query.getResultList();	
-		meusLivros = query2.getResultList();
+		livroUsers = query2.getResultList();
 		
 		em.getTransaction().commit();
 		em.close();
@@ -95,55 +105,26 @@ public class GerenciamentoLivroNew {
 		return "admin.jsf?faces-redirect=true";
 	}
 	
-	public void Emprestar() {
-		
-		if(livroSelecionado.getUser() != null || livroSelecionado.getQuantidade() == 0)
-			error();
-		else if (userSelecionado != null) {
-		
-			EntityManager em = new JPAUtil().getEntityManager();
-			
-			em.getTransaction().begin();
-			
-			Calendar cal = Calendar.getInstance();
-			cal.add(Calendar.DATE, 15);
-			
-			livroSelecionado.setDataEmprestimo(Calendar.getInstance());
-			livroSelecionado.setDataDevolucao(cal);
-		//	livroSelecionado.setUser(userSelecionado);
-			livroSelecionado.setQuantidade(livroSelecionado.getQuantidade() - 1);
-			
-			//SalvarNoHistorico(livroSelecionado);
-			
-			em.merge(livroSelecionado);
-		
-			em.getTransaction().commit();
-			em.close();	
-			
-			success();
-		}
-	}
-	
-	public void EmprestarNew() {
+	public void emprestar() {
 		
 		if(livroSelecionado.getQuantidade() > 0) {
 			
-			Livro livroAux = new Livro();
-			Users userAux = new Users();
+			LivroUsers relacionamento = new LivroUsers();
 			
 			EntityManager em = new JPAUtil().getEntityManager();
 			
 			em.getTransaction().begin();
 			
-			userAux = em.find(Users.class, userSelecionado.getId());
+			userSelecionado = em.find(Users.class, userSelecionado.getId());
+			livroSelecionado = em.find(Livro.class, livroSelecionado.getId());
+			relacionamento = livroSelecionado.emprestar(userSelecionado);
 			
-			livroAux = em.find(Livro.class, livroSelecionado.getId());
-			livroAux.addUser(userAux);
-			livroAux.setQuantidade(livroSelecionado.getQuantidade() - 1);
+			livroSelecionado.setQuantidade(livroSelecionado.getQuantidade() - 1);
 			
-			SalvarNoHistorico(livroAux, userAux);
-		
-			em.persist(livroAux);
+			SalvarNoHistorico(livroSelecionado, userSelecionado);
+			
+			em.persist(relacionamento);
+			em.persist(livroSelecionado);
 			
 			em.getTransaction().commit();
 			em.close();
@@ -176,26 +157,21 @@ public class GerenciamentoLivroNew {
 		em.close();
 	}
 		
-
 	public String Devolver() {
 		
 		EntityManager em = new JPAUtil().getEntityManager();
 		
-		Livro livro1 = new Livro();
-		
 		em.getTransaction().begin();
 		
-		livro1 = em.find(Livro.class, livroSelecionado.getId());
+		livroSelecionado = em.find(Livro.class, livroSelecionado.getId());
+		livroSelecionado.setQuantidade(livroSelecionado.getQuantidade() + 1);
 		
-		for (Users usuario : livro1.getUser()) {
-			if(usuario.getId() == userSelecionado.getId()) {
-				livro1.getUser().remove(usuario);
-				livro1.setQuantidade(livroSelecionado.getQuantidade() + 1);
-				break;
-			}
-		}
+		String jpql = "delete from LivroUsers c where c.livroId = :plivroId and c.userId = :puserId";
+		Query query = em.createQuery(jpql);
+		query.setParameter("plivroId", livroSelecionado.getId());
+		query.setParameter("puserId", userSelecionado.getId());
 		
-		em.persist(livro1);
+		query.executeUpdate();
 		
 		em.getTransaction().commit();
 		em.close();
@@ -236,7 +212,7 @@ public class GerenciamentoLivroNew {
     }
 	
 	public void error() {
-        FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Livro já emprestado.",null));
+        FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Livro indisponível.",null));
     }
 	
 }

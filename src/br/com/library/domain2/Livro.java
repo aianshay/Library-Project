@@ -1,19 +1,18 @@
 package br.com.library.domain2;
 
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
-
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToMany;
-import javax.persistence.Temporal;
-import javax.persistence.TemporalType;
+import javax.persistence.OneToMany;
 
+@SuppressWarnings("unused")
 @Entity
-
 public class Livro {
 
 	@Id
@@ -22,45 +21,55 @@ public class Livro {
 	private String titulo;
 	private String autor;
 	private String capa;
-	@Temporal(TemporalType.DATE)
-	private Calendar dataEmprestimo;
-	@Temporal(TemporalType.DATE)
-	private Calendar dataDevolucao;
 	private int quantidade;
 	
-	@ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
-	private List<Users> user;
+	//@ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
+	//private List<Users> user;
 
-	public Calendar getDataEmprestimo() {
-		return dataEmprestimo;
-	}
-
-	public void setDataEmprestimo(Calendar dataEmprestimo) {
-		this.dataEmprestimo = dataEmprestimo;
-	}
-
-	public Calendar getDataDevolucao() {
-		return dataDevolucao;
-	}
-
-	public void setDataDevolucao(Calendar dataDevolucao) {
-		this.dataDevolucao = dataDevolucao;
-	}
-
-	public void addUser(Users usuario) {
-		user.add(usuario);
-	}
+	@OneToMany(mappedBy = "livro")
+	private List<LivroUsers> users;
 	
-	public void removeUser(Users usuario) {
-		user.remove(usuario);
+//	public void addUser(Users usuario) {
+//		user.add(usuario);
+//	}
+//	
+//	public void removeUser(Users usuario) {
+//		user.remove(usuario);
+//	}
+//
+//	public List<Users> getUser() {
+//		return user;
+//	}
+//
+//	public void setUser(List<Users> user) {
+//		this.user = user;
+//	}
+	
+	public List<LivroUsers> getUsers() {
+		return users;
 	}
 
-	public List<Users> getUser() {
-		return user;
+	public void setUsers(List<LivroUsers> users) {
+		this.users = users;
 	}
 
-	public void setUser(List<Users> user) {
-		this.user = user;
+	public LivroUsers emprestar(Users user) {
+		
+		LivroUsers relacionamento = new LivroUsers();
+		
+		Calendar cal = Calendar.getInstance();
+		cal.add(Calendar.DATE, 15);
+		
+		relacionamento.setUser(user);
+		relacionamento.setLivro(this);
+		relacionamento.setUserId(user.getId());
+		relacionamento.setLivroId(this.getId());
+		relacionamento.setDataEmprestimo(Calendar.getInstance());
+		relacionamento.setDataDevolucao(cal);
+		
+		this.users.add(relacionamento);
+		 
+		return relacionamento;
 	}
 
 	public String getTitulo() {
@@ -103,6 +112,11 @@ public class Livro {
 		this.quantidade = quantidade;
 	}
 	
+	@Override
+	public String toString() {                                      //toString é um formatador de objeto
+		String out = "livro: " + titulo + " \nautor: " + autor; 		//ensina o Java a imprimir o que ta num endereço de memoria
+		return out;
+	}
 	
 
 }

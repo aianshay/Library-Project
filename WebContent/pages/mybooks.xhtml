@@ -17,24 +17,24 @@
     		</f:facet>
     	</p:menubar>
     	
-    <f:event type="preRenderView" listener="#{gerenciamentoLivroNew.getMeusLivros}" />
+    <f:event type="preRenderView" listener="#{gerenciamentoLivroNew.getLivroUsers}" />
     	
- 	<p:dataTable value="#{gerenciamentoLivroNew.meusLivros}" var="meuLivro">
+ 	<p:dataTable value="#{gerenciamentoLivroNew.livroUsers}" var="meuLivro">
  		<f:facet name="header">
         	Meus livros emprestados
     	</f:facet>
  		
-		<p:column headerText="Título" filterBy="#{meuLivro.titulo}">
-			<h:outputText value="#{meuLivro.titulo}"/>
+		<p:column headerText="Título" filterBy="#{meuLivro.livro.titulo}">
+			<h:outputText value="#{meuLivro.livro.titulo}"/>
 		</p:column>
 		
-		<p:column headerText="Autor" filterBy="#{meuLivro.autor}">
-			<h:outputText value="#{meuLivro.autor}"/>
+		<p:column headerText="Autor" filterBy="#{meuLivro.livro.autor}">
+			<h:outputText value="#{meuLivro.livro.autor}"/>
 		</p:column>
 		
  		<p:column headerText="Capa" style="width:100px; text-align:center">
  			<p:commandButton update=":form:capaDetail"  oncomplete="PF('livroDialog').show()" icon="ui-icon-bookmark" title="Visualizar"> 
-               <f:setPropertyActionListener value="#{meuLivro}" target="#{gerenciamentoLivroNew.livroSelecionado}" /> 
+               <f:setPropertyActionListener value="#{meuLivro.livro}" target="#{gerenciamentoLivroNew.livroSelecionado}" /> 
              </p:commandButton> 
  		</p:column>
  		
@@ -46,7 +46,7 @@
  		
  		<p:column headerText="Devolver" style="width:100px; text-align:center">
 			<p:commandButton title="Devolver" icon="ui-icon-minus" oncomplete="PF('confirmarDialog').show()">	
-				<f:setPropertyActionListener value="#{meuLivro}" target="#{gerenciamentoLivroNew.livroSelecionado}"/>
+				<f:setPropertyActionListener value="#{meuLivro.livro}" target="#{gerenciamentoLivroNew.livroSelecionado}"/>
 			</p:commandButton>		
         </p:column>
    

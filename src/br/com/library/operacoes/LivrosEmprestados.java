@@ -5,24 +5,23 @@ import java.util.List;
 import javax.faces.bean.ManagedBean;
 import javax.persistence.EntityManager;
 import javax.persistence.Query;
-
-import br.com.library.domain2.Livro;
+import br.com.library.domain2.LivroUsers;
 import br.com.library.util.JPAUtil;
 
 @ManagedBean(name="livrosEmprestados")
 
 public class LivrosEmprestados {
 
-	private List <Livro> livrosEmprestados = new ArrayList<>();
-	
-	public List<Livro> getLivrosEmprestados() {
+	private List <LivroUsers> livrosEmprestados = new ArrayList<>();
+
+	public List<LivroUsers> getLivrosEmprestados() {
 		return livrosEmprestados;
 	}
 
-	public void setLivrosEmprestados(List<Livro> livrosEmprestados) {
+	public void setLivrosEmprestados(List<LivroUsers> livrosEmprestados) {
 		this.livrosEmprestados = livrosEmprestados;
 	}
-	
+
 	@SuppressWarnings("unchecked")
 	public LivrosEmprestados() {
 		super();
@@ -30,11 +29,8 @@ public class LivrosEmprestados {
 		EntityManager em = new JPAUtil().getEntityManager();
 		em.getTransaction().begin();
 	
-		String jpql = "select l from Livro l join fetch l.user u where u <> NULL";
+		String jpql = "select c from LivroUsers c";
 		Query query = em.createQuery(jpql);
-	
-//		String jpql = "select u from Users u join u.livro l where l.login <> NULL";
-//		Query query = em.createQuery(jpql);
 		
 		livrosEmprestados = query.getResultList();
 

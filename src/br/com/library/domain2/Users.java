@@ -1,9 +1,11 @@
 package br.com.library.domain2;
 
+import java.util.List;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
 
 @Entity
 public class Users {
@@ -13,6 +15,17 @@ public class Users {
 	private Integer id;
 	private String login;
 	private String password;
+	
+	@OneToMany(mappedBy = "user")
+	private List<LivroUsers> livros;
+
+	public List<LivroUsers> getLivros() {
+		return livros;
+	}
+
+	public void setLivros(List<LivroUsers> livros) {
+		this.livros = livros;
+	}
 
 	public Integer getId() {
 		return id;

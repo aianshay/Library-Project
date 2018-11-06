@@ -30,7 +30,7 @@ public class TesteConsultaTabelaRelacionamento {
 		for (Livro livro : livros) {
 			System.out.println("id: " + livro.getId());
 			System.out.println("autor: " + livro.getAutor());
-			System.out.println(livro.getUser());
+			//System.out.println(livro.getUser());
 		}
 		
 		em.getTransaction().commit();

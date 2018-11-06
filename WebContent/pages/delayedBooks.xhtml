@@ -31,17 +31,17 @@
         	Livros atrasados
     	</f:facet>
 		
-		<p:column headerText="Título" filterBy="#{livroAtrasado.titulo}">
-			<h:outputText value="#{livroAtrasado.titulo}"/>
+		<p:column headerText="Título" filterBy="#{livroAtrasado.livro.titulo}">
+			<h:outputText value="#{livroAtrasado.livro.titulo}"/>
 		</p:column>
 		
-		<p:column headerText="Autor" filterBy="#{livroAtrasado.autor}">
-			<h:outputText value="#{livroAtrasado.autor}"/>
+		<p:column headerText="Autor" filterBy="#{livroAtrasado.livro.autor}">
+			<h:outputText value="#{livroAtrasado.livro.autor}"/>
 		</p:column>
 		
  		<p:column headerText="Capa" style="width:100px; text-align:center">
  			<p:commandButton update=":form:capaDetail"  oncomplete="PF('livroDialog').show()" icon="ui-icon-bookmark" title="Visualizar"> 
-               <f:setPropertyActionListener value="#{livroAtrasado}" target="#{gerenciamentoLivroNew.livroSelecionado}" /> 
+               <f:setPropertyActionListener value="#{livroAtrasado.livro}" target="#{gerenciamentoLivroNew.livroSelecionado}" /> 
              </p:commandButton> 
  		</p:column>
  		
