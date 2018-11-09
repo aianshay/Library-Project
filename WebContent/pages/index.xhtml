@@ -15,35 +15,35 @@
 			<p:growl life="2500"> <p:autoUpdate /> </p:growl>
 			
 			<p:fieldset legend="Faça seu login" style="width:250px; margin-bottom:20px">
-				<h:panelGrid columns="2" cellpadding="5">
-				
-					<h:outputLabel for="username" value="Usuário:" />
-					<p:inputText id="username" value="#{userLogin.username}"
-						required="true" label="username" />
-
-					<h:outputLabel for="password" value="Senha:" />
-					<p:password id="password" value="#{userLogin.password}"
-						required="true" label="password" />
-						
-					<f:facet name="footer">
-						<p:commandButton value="Login" ajax="false" action="#{userLogin.login}" style="margin-left:220px" />
-					</f:facet>
-
-				</h:panelGrid>
-				
+				<form action="j_spring_security_check" method="post">
+					<h:panelGrid columns="2" cellpadding="5">
+					
+						<h:outputLabel for="username" value="Usuário:" />
+						<h:inputText id="username"/>
+<!-- 						<p:inputText id="username" value="#{userLogin.username}" required="true" label="username" /> -->
+	
+						<h:outputLabel for="password" value="Senha:" />
+						<h:inputText id="password" />
+<!-- 						<p:password id="password" value="#{userLogin.password}" required="true" label="password" /> -->
+							
+						<f:facet name="footer">
+								<p:commandButton value="Entrar" />
+<!-- 							<p:commandButton value="Login" ajax="false" action="#{userLogin.login}" style="margin-left:220px" /> -->
+						</f:facet>
+	
+					</h:panelGrid>
+				</form>
 			</p:fieldset>
 			
 		</h:form>
 		</p:panel>
 		
 		<p:panel>
-			
-		<h:form>
-			<p:fieldset legend="Ainda não é usuário? Cadastre-se já!" style="width:350px" >
-					<p:commandButton value="Registrar-se" ajax="false" action="register.xhmtl?faces-redirect=true" style="margin-left:208px"/>
-			</p:fieldset>
-		</h:form>
-			
+			<h:form>
+				<p:fieldset legend="Ainda não é usuário? Cadastre-se já!" style="width:350px" >
+						<p:commandButton value="Registrar-se" ajax="false" action="register.xhmtl?faces-redirect=true" style="margin-left:208px"/>
+				</p:fieldset>
+			</h:form>
 		</p:panel>
 		
 		</h:panelGrid>
